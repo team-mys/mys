@@ -16,4 +16,5 @@ public class Users {
     @Column(name = "user_password")
     private String userPassword;
 
+    //AccessToken 수명 10분
 }
