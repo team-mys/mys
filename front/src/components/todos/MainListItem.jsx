@@ -1,86 +1,124 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
   MdAdd,
-  MdCheck,
   MdCheckBox,
   MdCheckBoxOutlineBlank,
   MdEdit,
 } from 'react-icons/md';
 import { IoMdTrash } from 'react-icons/io';
+import MainEdit from './MainEdit.jsx';
+import AddModal from './AddModal.jsx';
+import SubListItem from './SubListItem.jsx';
 
-export default function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
+function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
   const { id, text, checked } = todo;
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [editText, setEditText] = useState(text);
-  const [showSubListItem, setShowSubListItem] = useState(false);
+  const [subItems, setSubItems] = useState([]);
+
+  const AddSubItem = (subText) => {
+    setSubItems([
+      ...subItems,
+      {
+        id: subItems.length + 1,
+        text: subText,
+        checked: false,
+      },
+    ]);
+    setIsAdding(false);
+  };
+
+  const DeleteSubItem = (subId) => {
+    setSubItems(subItems.filter((subItem) => subItem.id !== subId));
+  };
+
+  const EditSubItem = (subId, newText) => {
+    setSubItems(
+      subItems.map((subItem) =>
+        subItem.id === subId
+          ? {
+              ...subItem,
+              text: newText,
+            }
+          : subItem
+      )
+    );
+  };
+
+  const CheckedSubItem = (subId) => {
+    setSubItems(
+      subItems.map((subItem) =>
+        subItem.id === subId
+          ? { ...subItem, checked: !subItem.checked }
+          : subItem
+      )
+    );
+  };
 
   return (
-    <div className='p-3.5 flex items-center [&:nth-child(even)]:bg-zinc-100 [&+&]: border-t-1 border-gray-300'>
-      <div
-        onClick={() => onComplete(id)}
-        className={twMerge(
-          'flex-1/2 flex items-center',
-          checked ? '[svg]:text-xl line-through text-gray-500' : ''
-        )}
-      >
-        {checked ? (
-          <MdCheckBox size={25} className='fill-orange-400 text-lg' />
-        ) : (
-          <MdCheckBoxOutlineBlank size={25} className='fill-orange-400' />
-        )}
-        {isEditing ? (
-          <input
-            type='text'
-            value={editText}
-            onChange={(e) => {
-              setEditText(e.target.value);
-            }}
-            className='ml-2 mr-6 w-[560px] border-b border-b-gray-300 text-gray-700 outline-none'
-          />
-        ) : (
-          <span className='pl-1'>{text}</span>
-        )}
-      </div>
-      <div className='flex items-center cursor-pointer px-2'>
-        {isEditing ? (
-          <button
-            onClick={() => {
-              onUpdate(id, editText);
-              setIsEditing(false);
-            }}
-            className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
-          >
-            <MdCheck size={22} />
-          </button>
-        ) : (
+    <>
+      <div className='p-3.5 flex flex-row items-center bg-neutral-100 border-b-1 border-gray-300'>
+        <button onClick={() => onComplete(id)} className='flex items-center'>
+          {checked ? (
+            <MdCheckBox size={25} className='fill-orange-400 text-lg' />
+          ) : (
+            <MdCheckBoxOutlineBlank size={25} className='fill-orange-400' />
+          )}
+        </button>
+        <span
+          className={twMerge(
+            'px-3 w-[600px]',
+            checked ? 'text-gray-400 line-through' : 'text-black'
+          )}
+        >
+          {text}
+        </span>
+        <div className='flex items-center cursor-pointer px-2'>
           <button
             className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
-            onClick={() => {
-              setIsEditing(true);
-            }}
+            onClick={() => setIsEditing(true)}
           >
             <MdEdit size={22} />
           </button>
+        </div>
+        <div className='cursor-pointer flex items-center gap-2'>
+          <button
+            onClick={() => onDelete(id)}
+            className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
+          >
+            <IoMdTrash size={22} />
+          </button>
+          <button
+            onClick={() => setIsAdding(true)}
+            className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
+          >
+            <MdAdd size={22} />
+          </button>
+        </div>
+        {isEditing && (
+          <MainEdit
+            text={editText}
+            onClose={() => setIsEditing(false)}
+            onSave={onUpdate}
+          />
+        )}
+        {isAdding && (
+          <AddModal onClose={() => setIsAdding(false)} onCreate={AddSubItem} />
         )}
       </div>
-      <div className='cursor-pointer flex items-center gap-2'>
-        <button
-          onClick={() => onDelete(id)}
-          className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
-        >
-          <IoMdTrash size={22} />
-        </button>
-        <button
-          onClick={() => {
-            setShowSubListItem(true);
-          }}
-          className='text-gray-500 hover:text-gray-300  rounded-full border p-0.5 border-gray-500'
-        >
-          <MdAdd size={22} />
-        </button>
-      </div>
-    </div>
+        {subItems.map((todo) => (
+          <SubListItem
+            key={todo.id}
+            todo={todo}
+            onDelete={DeleteSubItem}
+            onUpdate={EditSubItem}
+            onComplete={CheckedSubItem}
+          />
+        ))}
+    </>
   );
 }
+export default React.memo(MainListItem);
