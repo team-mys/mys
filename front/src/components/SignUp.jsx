@@ -6,7 +6,7 @@ export default function SignUpModal({ onClose, toLogin }) {
   return (
     <Modal>
       <div className='flex justify-between pb-2'>
-        <h2 className='text-xl font-bold flex items-center'>MYS에 회원가입</h2>
+        <h2 className='text-2xl font-bold flex items-center'>MYS에 회원가입</h2>
         <button
           onClick={onClose}
           className='bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300 cursor-pointer'
