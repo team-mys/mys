@@ -45,8 +45,9 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
       </div>
       {isEditing &&
         <SubEdit text={editText} onClose={() => setIsEditing(false)}
-                  onSave={onUpdate}/>}
+                 onSave={onUpdate}/>}
     </div>
   );
 }
+
 export default React.memo(SubListItem);
