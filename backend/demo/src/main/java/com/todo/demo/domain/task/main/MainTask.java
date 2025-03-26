@@ -1,5 +1,6 @@
 package com.todo.demo.domain.task.main;
 
+import com.todo.demo.domain.BaseEntity;
 import com.todo.demo.domain.task.TaskStatus;
 import com.todo.demo.domain.user.Users;
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "main_task")
-public class MainTask {
+public class MainTask extends BaseEntity {
 
     @Id @Column(name = "main_task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

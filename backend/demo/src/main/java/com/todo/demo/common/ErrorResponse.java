@@ -1,5 +1,6 @@
 package com.todo.demo.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
     private List<ValidationError> errors; // Validation 검증 오류
     private String reason; // ErrorCode 이유

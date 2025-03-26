@@ -1,5 +1,7 @@
 package com.todo.demo.domain.user.service;
 
+import com.todo.demo.common.ErrorCode;
+import com.todo.demo.common.exception.CustomException;
 import com.todo.demo.domain.user.Users;
 import com.todo.demo.domain.user.dto.UserEditDto;
 import com.todo.demo.domain.user.dto.UserRequestDto;
@@ -20,6 +22,9 @@ public class UserService {
 
     @Transactional
     public UserResponseDto createUser(UserRequestDto userReq){
+        if(isUserDuplicated(userReq.getUserName())){
+            throw new CustomException(ErrorCode.USER_DUPLICATED_ERROR);
+        }
         Users reqUser = userReq.asUser();
         reqUser.encodedUserPassword(passwordEncoder.encode(userReq.getUserPassword()));
         Users saveUser = userRepository.save(reqUser);
@@ -35,6 +40,11 @@ public class UserService {
             findUser.updateUserEditInfo(userEditDto.getUserNickName(), passwordEncoder.encode(userEditDto.getUserPassword()));
         }
         return UserResponseDto.of(findUser);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isUserDuplicated(String userName){
+        return userRepository.findUsersByUserName(userName).isPresent();
     }
 
     @Transactional(readOnly = true)

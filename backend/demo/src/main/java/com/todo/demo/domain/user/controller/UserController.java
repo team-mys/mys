@@ -33,6 +33,12 @@ public class UserController {
         return userService.createUser(userRequestDto);
     }
 
+    @Operation(summary = "사용자 아이디 중복 확인", description = "userName이 이미 존재하면 true, 존재하지 않으면 false를 반환합니다.")
+    @GetMapping("/{userName}")
+    public Boolean checkUserNameDuplicated(@PathVariable String userName){
+        return userService.isUserDuplicated(userName);
+    }
+
     @Operation(summary = "사용자 회원정보 수정", description = "userId로 검색 -> userNickName, userPassword를 업데이트 합니다. userPassword를 입력하지 않으면 기존의 값으로 대체됩니다.")
     @PutMapping
     public UserResponseDto updateUser(@RequestBody UserEditDto userEditDto){
