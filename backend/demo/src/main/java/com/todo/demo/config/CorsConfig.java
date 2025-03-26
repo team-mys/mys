@@ -12,6 +12,6 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true); // 인증 쿠키/헤더 사용 시 필수
+                .allowCredentials(false); // 인증 쿠키/헤더 사용 시 필수
     }
 }
