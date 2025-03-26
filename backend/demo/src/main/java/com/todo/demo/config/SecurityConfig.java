@@ -1,4 +1,4 @@
-package com.todo.demo.domain.config;
+package com.todo.demo.config;
 
 import com.todo.demo.common.ResponseWrapper;
 import com.todo.demo.security.filter.LoginAuthenticationFilter;
@@ -68,14 +68,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of(("*")));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
 }
