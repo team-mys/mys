@@ -22,7 +22,6 @@ public class SubTaskResDto {
         return SubTaskResDto.builder()
                 .subTaskId(subTask.getSubTaskId())
                 .subTaskContent(subTask.getSubTaskContent())
-                .subTaskTitle(subTask.getSubTaskTitle())
                 .main_task_id(subTask.getMainTask().getMainTaskId())
                 .build();
     }

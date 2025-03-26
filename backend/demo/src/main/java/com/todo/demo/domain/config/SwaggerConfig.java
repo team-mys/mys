@@ -1,4 +1,4 @@
-package com.todo.demo.config;
+package com.todo.demo.domain.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

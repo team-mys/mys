@@ -1,5 +1,6 @@
 package com.todo.demo.domain.task.sub;
 
+import com.todo.demo.domain.task.TaskStatus;
 import com.todo.demo.domain.task.main.MainTask;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,15 +18,16 @@ public class SubTask {
     @Column(name = "sub_task_id")
     private Long subTaskId;
 
-    @Column(name = "sub_task_title")
-    private String subTaskTitle;
-
     @Column(name = "sub_task_content")
     private String subTaskContent;
 
     @ManyToOne
     @JoinColumn(name = "main_task_id")
     private MainTask mainTask;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sub_task_status")
+    private TaskStatus subTaskStatus;
 
     public void updateMainTask(MainTask mainTask){
         this.mainTask = mainTask;

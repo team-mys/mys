@@ -11,19 +11,17 @@ import java.util.stream.Collectors;
 @Builder
 public class MainTaskResDto {
     private Long mainTaskId;
-
-    private String mainTaskTitle;
-
+    private String mainTaskStatus;
     private String mainTaskContent;
-
     private Long userId;
 
     public static MainTaskResDto of(MainTask mainTask){
         return MainTaskResDto
                 .builder()
                 .mainTaskId(mainTask.getMainTaskId())
-                .mainTaskTitle(mainTask.getMainTaskTitle())
                 .mainTaskContent(mainTask.getMainTaskContent())
+                .mainTaskStatus(mainTask
+                        .parseStatus())
                 .userId(mainTask.getUsers().getUserId())
                 .build();
     }

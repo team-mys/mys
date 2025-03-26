@@ -1,5 +1,6 @@
 package com.todo.demo.domain.task.main;
 
+import com.todo.demo.domain.task.TaskStatus;
 import com.todo.demo.domain.user.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,9 +18,6 @@ public class MainTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mainTaskId;
 
-    @Column(name = "main_task_title")
-    private String mainTaskTitle;
-
     @Column(name = "main_task_content")
     private String mainTaskContent;
 
@@ -27,7 +25,26 @@ public class MainTask {
     @JoinColumn(name = "user_id")
     private Users users;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "main_task_status")
+    private TaskStatus mainTaskStatus;
+
     public void updateUsers(Users users){
         this.users = users;
+    }
+    public void refreshTask(String mainTaskContent){
+        this.mainTaskContent = mainTaskContent;
+    }
+    public String parseStatus(){
+        return this.mainTaskStatus.getStatusDescription();
+    }
+
+    public void updateStatus(TaskStatus taskStatus){
+        this.mainTaskStatus = taskStatus;
+    }
+
+    @PrePersist
+    protected void updateStartStatus(){
+        this.mainTaskStatus = TaskStatus.PENDING;
     }
 }
