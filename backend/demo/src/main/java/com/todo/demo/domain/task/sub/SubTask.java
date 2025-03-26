@@ -1,5 +1,6 @@
-package com.todo.demo.domain.task;
+package com.todo.demo.domain.task.sub;
 
+import com.todo.demo.domain.task.main.MainTask;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

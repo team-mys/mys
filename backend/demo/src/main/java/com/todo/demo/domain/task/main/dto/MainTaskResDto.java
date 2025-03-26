@@ -1,8 +1,11 @@
-package com.todo.demo.domain.task.dto;
+package com.todo.demo.domain.task.main.dto;
 
-import com.todo.demo.domain.task.MainTask;
+import com.todo.demo.domain.task.main.MainTask;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -23,5 +26,9 @@ public class MainTaskResDto {
                 .mainTaskContent(mainTask.getMainTaskContent())
                 .userId(mainTask.getUsers().getUserId())
                 .build();
+    }
+
+    public static List<MainTaskResDto> of(List<MainTask> mainTaskList){
+        return mainTaskList.stream().map(MainTaskResDto::of).collect(Collectors.toList());
     }
 }

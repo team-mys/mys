@@ -1,11 +1,11 @@
-package com.todo.demo.domain.task.service;
+package com.todo.demo.domain.task.sub.service;
 
-import com.todo.demo.domain.task.MainTask;
-import com.todo.demo.domain.task.SubTask;
-import com.todo.demo.domain.task.dto.SubTaskReqDto;
-import com.todo.demo.domain.task.dto.SubTaskResDto;
-import com.todo.demo.domain.task.repository.MainTaskRepository;
-import com.todo.demo.domain.task.repository.SubTaskRepository;
+import com.todo.demo.domain.task.main.MainTask;
+import com.todo.demo.domain.task.sub.SubTask;
+import com.todo.demo.domain.task.sub.dto.SubTaskReqDto;
+import com.todo.demo.domain.task.sub.dto.SubTaskResDto;
+import com.todo.demo.domain.task.main.repository.MainTaskRepository;
+import com.todo.demo.domain.task.sub.repository.SubTaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

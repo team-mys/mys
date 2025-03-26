@@ -10,16 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class UserRequestDto {
-    private String userName;
+public class UserEditDto {
+
+    private Long userId;
     private String userPassword;
     private String userNickName;
 
-    public Users asUser(){
-        return Users.builder()
-                .userName(userName)
-                .userNickName(userNickName)
-                .userPassword(userPassword)
-                .build();
-    }
 }

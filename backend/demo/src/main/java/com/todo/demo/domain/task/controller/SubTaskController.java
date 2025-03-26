@@ -1,12 +1,11 @@
 package com.todo.demo.domain.task.controller;
 
-import com.todo.demo.domain.task.dto.SubTaskReqDto;
-import com.todo.demo.domain.task.dto.SubTaskResDto;
-import com.todo.demo.domain.task.service.SubTaskService;
+import com.todo.demo.domain.task.sub.dto.SubTaskReqDto;
+import com.todo.demo.domain.task.sub.dto.SubTaskResDto;
+import com.todo.demo.domain.task.sub.service.SubTaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,5 +1,6 @@
 package com.todo.demo.domain.user;
 
+import com.todo.demo.domain.user.dto.UserEditDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,9 @@ public class Users {
     @Column(name = "user_name", unique = true)
     private String userName;
 
+    @Column(name = "user_nick_name")
+    private String userNickName;
+
     @Column(name = "user_password")
     private String userPassword;
 
@@ -27,4 +31,12 @@ public class Users {
         this.userPassword = userPassword;
     }
 
+    public void updateUserEditInfo(String updateUserNickName, String userPassword){
+        this.userNickName = updateUserNickName;
+        this.userPassword = userPassword;
+    }
+
+    public void updateUserNickName(String updateUserNickName){
+        this.userNickName = updateUserNickName;
+    }
 }

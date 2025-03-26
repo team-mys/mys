@@ -1,6 +1,6 @@
-package com.todo.demo.domain.task.dto;
+package com.todo.demo.domain.task.main.dto;
 
-import com.todo.demo.domain.task.MainTask;
+import com.todo.demo.domain.task.main.MainTask;
 import lombok.Builder;
 import lombok.Data;
 

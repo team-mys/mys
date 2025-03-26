@@ -1,4 +1,4 @@
-package com.todo.demo.domain.task;
+package com.todo.demo.domain.task.main;
 
 import com.todo.demo.domain.user.Users;
 import jakarta.persistence.*;
