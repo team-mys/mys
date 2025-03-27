@@ -60,7 +60,7 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
 
   return (
     <>
-      <div className='p-3.5 flex flex-row items-center bg-neutral-100 border-b-1 border-gray-300'>
+      <div className='p-3.5 flex flex-row items-center bg-neutral-100 dark:bg-gray-700 dark:border-gray-700 border-b-1 border-gray-300'>
         <button onClick={() => onComplete(id)} className='flex items-center'>
           {checked ? (
             <MdCheckBox size={25} className='fill-orange-400 text-lg' />
@@ -70,8 +70,8 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
         </button>
         <span
           className={twMerge(
-            'px-3 w-[600px]',
-            checked ? 'text-gray-400 line-through' : 'text-black'
+            'px-3 w-[600px] dark:text-white',
+            checked ? 'text-gray-400 line-through dark:text-gray-950' : 'text-black'
           )}
         >
           {text}

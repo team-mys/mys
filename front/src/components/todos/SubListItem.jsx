@@ -13,9 +13,9 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
 
   return (
     <div
-      className="p-3.5 flex items-center bg-white border-b border-gray-300">
+      className="p-3.5 flex items-center bg-white dark:bg-gray-600 dark:border-gray-700 border-b border-gray-300">
       <div className="pl-3 pr-2">
-        <BsArrowReturnRight size={25} className="stroke-[0.5] text-gray-600"/>
+        <BsArrowReturnRight size={25} className="stroke-[0.5] text-gray-600 dark:text-gray-950" />
       </div>
       <button onClick={() => onComplete(id)}
               className="flex items-center">
@@ -26,8 +26,8 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
         )}
       </button>
       <span className={twMerge(
-        "px-3 w-[600px]",
-        checked ? "text-gray-400 line-through" : "text-black"
+        "px-3 w-[600px] dark:text-white",
+        checked ? "text-gray-400 line-through dark:text-gray-950" : "text-black"
       )}>{text}</span>
       <div className="flex items-center cursor-pointer px-2 gap-2">
         <button
