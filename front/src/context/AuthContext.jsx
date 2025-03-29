@@ -21,7 +21,7 @@ export function AuthProvider({children}) {
       setUser(response.data); // 회원가입 성공 시 상태 업데이트
       console.log(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("회원가입 실패",error);
     }
   };
 
@@ -35,7 +35,7 @@ export function AuthProvider({children}) {
             'Content-Type': 'application/json',
             'Accept': '*/*'
           }
-        },
+        }
       );
       setUser(response.data); // 로그인 성공 시 상태 업데이트
       console.log(response.data);

@@ -1,4 +1,4 @@
-const useTodo = (todos, action) => {
+const todoReducer = (todos, action) => {
   switch (action.type) {
     case 'CREATE':
       return todos.concat(action.todo);
@@ -8,23 +8,22 @@ const useTodo = (todos, action) => {
       return todos.map((todo) =>
         todo.id === action.id
           ? {
-              ...todo,
-              text: action.text,
-            }
+            ...todo,
+            text: action.text,
+          }
           : todo
       );
     case 'COMPLETE':
       return todos.map((todo) =>
         todo.id === action.id
           ? {
-              ...todo,
-              checked: !todo.checked,
-            }
+            ...todo,
+            checked: !todo.checked,
+          }
           : todo
       );
     default:
       return todos;
   }
 };
-
-export default useTodo;
+export default todoReducer;

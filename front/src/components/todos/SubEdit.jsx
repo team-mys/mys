@@ -1,7 +1,18 @@
 import { MdClose } from 'react-icons/md';
 import Modal from '../layouts/Modal.jsx';
+import {useState} from 'react';
 
-export default function SubEdit({ onClose, onUpdate }) {
+
+export default function SubEdit({text, onClose, onSave }) {
+  const [editText, setEditText] = useState(text);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!editText.trim()) return;
+    onSave(editText);
+    onClose();
+  };
+
   return (
     <Modal>
       <div className='flex justify-between pb-2'>
@@ -15,14 +26,16 @@ export default function SubEdit({ onClose, onUpdate }) {
           <MdClose size={20} />
         </button>
       </div>
-      <form className='flex justify-between gap-x-2 rounded-md'>
+      <form onSubmit={handleSubmit} className='flex justify-between gap-x-2 rounded-md'>
         <input
           type='text'
-          placeholder='TodoList 수정하기'
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+          placeholder='TodoList 하위항목 수정하기'
           className='w-full p-2 border border-gray-200 outline-none'
         />
         <button
-          onClick={onUpdate}
+          type='submit'
           className='bg-orange-400 text-white w-14 rounded cursor-pointer'
         >
           수정
