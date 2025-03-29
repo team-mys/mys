@@ -32,7 +32,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
             UserLoginDto userLoginDto = new ObjectMapper().readValue(request.getInputStream(), UserLoginDto.class);
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            userLoginDto.getUserId(),
+                            userLoginDto.getUserName(),
                             userLoginDto.getUserPassword())
             );
         } catch (IOException e) {
@@ -47,10 +47,20 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
         String accessToken = jwtUtil.generateAccessToken(userId);
         Users users = userDetails.getUsers();
+
         JwtToken jwtToken = JwtToken.builder()
                 .accessToken(accessToken)
                 .userResponseDto(UserResponseDto.of(users))
                 .build();
+
         responseWrapper.convertObjectToResponse(response, jwtToken);
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(401);
+    }
+
 }
