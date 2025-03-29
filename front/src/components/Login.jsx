@@ -1,8 +1,29 @@
 
 import { MdClose } from 'react-icons/md';
 import Modal from './layouts/Modal.jsx';
+import {useAuth} from '../context/AuthContext.jsx';
+import {useCallback, useState} from 'react';
 
 export default function LoginModal({ onClose, toSignUp }) {
+  const {login} = useAuth();
+
+  const [form, setForm] = useState({
+    userId: '',
+    userPassword: ''
+  })
+
+  const onLoginChange = useCallback((e) => {
+    setForm((prevForm) => ({ ...prevForm, [e.target.name]: e.target.value }));
+  }, []);
+
+  const onLoginSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      login(form);
+    },
+    [form, login]
+  );
+
   return (
     <Modal>
       <div className='flex justify-between pb-2'>
@@ -14,18 +35,22 @@ export default function LoginModal({ onClose, toSignUp }) {
           <MdClose size={25} />
         </button>
       </div>
-      <form className='flex flex-col gap-y-5'>
+      <form onSubmit={onLoginSubmit} className='flex flex-col gap-y-5'>
         <input
+          onChange={onLoginChange}
           type='text'
+          name='userId'
           placeholder='아이디'
           className='w-full p-2 border-b border-gray-200 outline-none'
         />
         <input
+          onChange={onLoginChange}
           type='password'
+          name='userPassword'
           placeholder='비밀번호'
           className='w-full p-2 border-b border-gray-200 outline-none'
         />
-        <button className='w-full bg-orange-400 text-white p-1.5 rounded cursor-pointer'>
+        <button type='submit' className='w-full bg-orange-400 text-white p-1.5 rounded cursor-pointer'>
           로그인
         </button>
       </form>

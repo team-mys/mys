@@ -1,4 +1,4 @@
-const todoReducer = (todos, action) => {
+const useTodo = (todos, action) => {
   switch (action.type) {
     case 'CREATE':
       return todos.concat(action.todo);
@@ -27,4 +27,4 @@ const todoReducer = (todos, action) => {
   }
 };
 
-export default todoReducer;
+export default useTodo;
