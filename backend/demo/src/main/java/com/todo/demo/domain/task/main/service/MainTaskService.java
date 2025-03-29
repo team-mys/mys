@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +56,8 @@ public class MainTaskService {
         if(findMainTasks==null){
             return null;
         }
-       return MainTaskResDto.of(findMainTasks);
+        List<MainTask> sortedMainTask = findMainTasks.stream().sorted(Comparator.comparing(MainTask::getCreatedAt)).collect(Collectors.toList());
+       return MainTaskResDto.of(sortedMainTask);
     }
 
 

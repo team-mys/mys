@@ -4,6 +4,7 @@ import com.todo.demo.domain.task.main.MainTask;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,14 +16,16 @@ public class MainTaskResDto {
     private String mainTaskContent;
     private Long userId;
 
+    private LocalDateTime createdAt;
+
     public static MainTaskResDto of(MainTask mainTask){
         return MainTaskResDto
                 .builder()
                 .mainTaskId(mainTask.getMainTaskId())
                 .mainTaskContent(mainTask.getMainTaskContent())
-                .mainTaskStatus(mainTask
-                        .parseStatus())
+                .mainTaskStatus(mainTask.parseStatus())
                 .userId(mainTask.getUsers().getUserId())
+                .createdAt(mainTask.getCreatedAt())
                 .build();
     }
 
