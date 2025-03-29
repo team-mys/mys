@@ -15,7 +15,8 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
     <div
       className="p-3.5 flex items-center bg-white dark:bg-gray-600 dark:border-gray-700 border-b border-gray-300">
       <div className="pl-3 pr-2">
-        <BsArrowReturnRight size={25} className="stroke-[0.5] text-gray-600 dark:text-gray-950" />
+        <BsArrowReturnRight size={25}
+                            className="stroke-[0.5] text-gray-600 dark:text-gray-950"/>
       </div>
       <button onClick={() => onComplete(id)}
               className="flex items-center">
@@ -45,7 +46,10 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
       </div>
       {isEditing &&
         <SubEdit text={editText} onClose={() => setIsEditing(false)}
-                 onSave={onUpdate}/>}
+                 onSave={(newText) => {
+                   onUpdate(id, newText);
+                   setIsEditing(false);
+                 }}/>}
     </div>
   );
 }

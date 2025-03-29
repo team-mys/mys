@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import React, {useState} from 'react';
+import {twMerge} from 'tailwind-merge';
 import {
   MdAdd,
   MdCheckBox,
   MdCheckBoxOutlineBlank,
-  MdEdit,
+  MdEdit
 } from 'react-icons/md';
-import { IoMdTrash } from 'react-icons/io';
+import {IoMdTrash} from 'react-icons/io';
 import MainEdit from './MainEdit.jsx';
 import AddModal from './AddModal.jsx';
 import SubListItem from './SubListItem.jsx';
+import {
+  useCompleteTodo,
+  useDeleteTodo,
+  useUpdateTodo
+} from '../../hooks/useTodos.js';
 
-function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
-  const { id, text, checked } = todo;
+function MainListItem({todo}) {
+  const {id, text, checked} = todo;
+
+  const deleteTodo = useDeleteTodo();
+  const completeTodo = useCompleteTodo();
+  const updateTodo = useUpdateTodo();
 
   const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
-  const [editText, setEditText] = useState(text);
   const [subItems, setSubItems] = useState([]);
 
   const AddSubItem = (subText) => {
@@ -25,8 +33,8 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
       {
         id: subItems.length + 1,
         text: subText,
-        checked: false,
-      },
+        checked: false
+      }
     ]);
     setIsAdding(false);
   };
@@ -40,9 +48,9 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
       subItems.map((subItem) =>
         subItem.id === subId
           ? {
-              ...subItem,
-              text: newText,
-            }
+            ...subItem,
+            text: newText
+          }
           : subItem
       )
     );
@@ -52,7 +60,7 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
     setSubItems(
       subItems.map((subItem) =>
         subItem.id === subId
-          ? { ...subItem, checked: !subItem.checked }
+          ? {...subItem, checked: !subItem.checked}
           : subItem
       )
     );
@@ -60,12 +68,13 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
 
   return (
     <>
-      <div className='p-3.5 flex flex-row items-center bg-neutral-100 dark:bg-gray-700 dark:border-gray-700 border-b-1 border-gray-300'>
-        <button onClick={() => onComplete(id)} className='flex items-center'>
+      <div
+        className="p-3.5 flex flex-row items-center bg-neutral-100 dark:bg-gray-700 dark:border-gray-700 border-b-1 border-gray-300">
+        <button onClick={() => completeTodo(id)} className="flex items-center">
           {checked ? (
-            <MdCheckBox size={25} className='fill-orange-400 text-lg' />
+            <MdCheckBox size={25} className="fill-orange-400 text-lg"/>
           ) : (
-            <MdCheckBoxOutlineBlank size={25} className='fill-orange-400' />
+            <MdCheckBoxOutlineBlank size={25} className="fill-orange-400"/>
           )}
         </button>
         <span
@@ -76,49 +85,53 @@ function MainListItem({ todo, onDelete, onComplete, onUpdate }) {
         >
           {text}
         </span>
-        <div className='flex items-center cursor-pointer px-2'>
+        <div className="flex items-center cursor-pointer px-2">
           <button
-            className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
+            className="text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500"
             onClick={() => setIsEditing(true)}
           >
-            <MdEdit size={22} />
+            <MdEdit size={22}/>
           </button>
         </div>
-        <div className='cursor-pointer flex items-center gap-2'>
+        <div className="cursor-pointer flex items-center gap-2">
           <button
-            onClick={() => onDelete(id)}
-            className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
+            onClick={() => deleteTodo(id)}
+            className="text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500"
           >
-            <IoMdTrash size={22} />
+            <IoMdTrash size={22}/>
           </button>
           <button
             onClick={() => setIsAdding(true)}
-            className='text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500'
+            className="text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500"
           >
-            <MdAdd size={22} />
+            <MdAdd size={22}/>
           </button>
         </div>
         {isEditing && (
           <MainEdit
-            text={editText}
+            todo={todo}
             onClose={() => setIsEditing(false)}
-            onSave={onUpdate}
+            onSave={(newText) => {
+              updateTodo(id, newText);
+              setIsEditing(false);
+            }}
           />
         )}
         {isAdding && (
-          <AddModal onClose={() => setIsAdding(false)} onCreate={AddSubItem} />
+          <AddModal onClose={() => setIsAdding(false)} onCreate={AddSubItem}/>
         )}
       </div>
-        {subItems.map((todo) => (
-          <SubListItem
-            key={todo.id}
-            todo={todo}
-            onDelete={DeleteSubItem}
-            onUpdate={EditSubItem}
-            onComplete={CheckedSubItem}
-          />
-        ))}
+      {subItems.map((todo) => (
+        <SubListItem
+          key={todo.id}
+          todo={todo}
+          onDelete={DeleteSubItem}
+          onUpdate={EditSubItem}
+          onComplete={CheckedSubItem}
+        />
+      ))}
     </>
   );
 }
+
 export default React.memo(MainListItem);

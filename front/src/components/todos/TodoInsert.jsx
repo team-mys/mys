@@ -1,21 +1,22 @@
 import {MdAdd} from 'react-icons/md';
 import {useCallback, useState} from 'react';
+import {useCreateTodo} from '../../hooks/useTodos.js';
 
-export default function TodoInsert({onCreate}) {
+export default function TodoInsert() {
   const [value, setValue] = useState('');
+  const createTodo = useCreateTodo();
 
   const onChange = useCallback(e => {
     setValue(e.target.value);
   }, [])
 
   const onSubmit = useCallback(e => {
-      // submit 이벤트는 브라우저에서 새로고침 발생
-      e.preventDefault(); // 새로고침 방지
-      if (!value.trim()) return; // 공백일 경우 return
-      onCreate(value);
-      setValue(''); // value 값 초기화
+      e.preventDefault();
+      if (!value.trim()) return;
+      createTodo(value);
+      setValue('');
     },
-    [onCreate, value]
+    [createTodo, value]
   );
 
   return (
