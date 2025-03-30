@@ -1,6 +1,6 @@
 package com.todo.demo.common.exception.handler;
 
-import com.todo.demo.common.ErrorResponse;
+import com.todo.demo.common.code.ErrorResponse;
 import com.todo.demo.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

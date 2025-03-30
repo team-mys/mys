@@ -1,10 +1,11 @@
 package com.todo.demo.domain.task.main.dto;
 
 import com.todo.demo.domain.task.main.MainTask;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class MainTaskReqDto {
     private String mainTaskContent;
