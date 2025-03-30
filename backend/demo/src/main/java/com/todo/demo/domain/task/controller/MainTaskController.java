@@ -6,6 +6,7 @@ import com.todo.demo.domain.task.main.dto.MainTaskReqDto;
 import com.todo.demo.domain.task.main.dto.MainTaskResDto;
 import com.todo.demo.domain.task.main.dto.MainTaskUpdateDto;
 import com.todo.demo.domain.task.main.service.MainTaskService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class MainTaskController {
         mainTaskService.deleteMainTaskById(mainTaskId);
     }
 
+    @Operation(summary = "메인 테스크 상태 업데이트")
     @PutMapping("/update")
     public MainTaskResDto updateMainTaskStatus(@RequestBody @Valid MainStatusUpdateDto statusUpdateDto){
         return mainTaskService.updateMainTaskStatus(statusUpdateDto);

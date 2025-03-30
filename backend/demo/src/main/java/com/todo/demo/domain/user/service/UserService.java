@@ -1,6 +1,6 @@
 package com.todo.demo.domain.user.service;
 
-import com.todo.demo.common.ErrorCode;
+import com.todo.demo.common.code.ErrorCode;
 import com.todo.demo.common.exception.CustomException;
 import com.todo.demo.domain.user.Users;
 import com.todo.demo.domain.user.dto.UserEditDto;

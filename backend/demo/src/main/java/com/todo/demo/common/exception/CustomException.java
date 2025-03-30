@@ -1,6 +1,6 @@
 package com.todo.demo.common.exception;
 
-import com.todo.demo.common.ErrorCode;
+import com.todo.demo.common.code.ErrorCode;
 import lombok.Getter;
 
 @Getter

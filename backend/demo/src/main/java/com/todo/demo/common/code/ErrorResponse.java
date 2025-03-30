@@ -1,4 +1,4 @@
-package com.todo.demo.common;
+package com.todo.demo.common.code;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

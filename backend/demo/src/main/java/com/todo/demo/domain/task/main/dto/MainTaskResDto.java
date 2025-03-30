@@ -15,7 +15,6 @@ public class MainTaskResDto {
     private String mainTaskStatus;
     private String mainTaskContent;
     private Long userId;
-
     private LocalDateTime createdAt;
 
     public static MainTaskResDto of(MainTask mainTask){
