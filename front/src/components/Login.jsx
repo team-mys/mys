@@ -7,7 +7,7 @@ export default function LoginModal({onClose, toSignUp}) {
   const {login} = useAuth();
 
   const [form, setForm] = useState({
-    userNickName: '',
+    userName: '',
     userPassword: ''
   });
 
@@ -34,16 +34,17 @@ export default function LoginModal({onClose, toSignUp}) {
           <MdClose size={25}/>
         </button>
       </div>
-      <form onSubmit={onLoginSubmit} className="flex flex-col gap-y-5"
-            autoComplete="off">
+      <form onSubmit={onLoginSubmit} className="flex flex-col gap-y-5">
         <input
+          autoComplete="off"
           onChange={onLoginChange}
           type="text"
-          name="userId"
+          name="userName"
           placeholder="아이디"
           className="w-full p-2 border-b border-gray-200 outline-none"
         />
         <input
+          autoComplete="off"
           onChange={onLoginChange}
           type="password"
           name="userPassword"
