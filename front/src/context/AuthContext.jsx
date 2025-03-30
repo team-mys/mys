@@ -7,8 +7,10 @@ export function AuthProvider({children}) {
   const [user, setUser] = useState(null);
 
   const signup = async (userData) => {
+    console.log("보내는 데이터:", userData); // 데이터 확인용
     try {
       const response = await axios.post(
+        //import.meta.env.VITE_AUTH_SIGNUP,
         'http://59.24.237.51:8080/api/v1/user',
         userData,
         {
@@ -26,19 +28,21 @@ export function AuthProvider({children}) {
   };
 
   const login = async (userData) => {
+    console.log("보내는 데이터:", userData); // 데이터 확인용
     try {
       const response = await axios.post(
-        'http://59.24.237.51:8080/api/v1/user/login',
+        "http://59.24.237.51:8080/api/v1/user/login",
         userData,
         {
           headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*'
-          }
+          },
+          withCredentials: false,
         }
       );
-      setUser(response.data); // 로그인 성공 시 상태 업데이트
-      console.log(response.data);
+      setUser(response.data);
+      console.log("응답 데이터:", response.data);
     } catch (error) {
       console.error("로그인 실패", error);
     }
