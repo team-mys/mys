@@ -54,7 +54,6 @@ public class UserController {
     @Operation(summary = "사용자 로그인", description = "로그인에 성공하면 403 에러를 반환, 성공하면 AccessToken과 User 정보 반환")
     @PostMapping("/login")
     public JwtToken userLogin(@RequestBody UserLoginDto userLoginDto){
-        System.out.println("dasdsadasdddadsa 시발 동작하지마");
         return JwtToken.builder().accessToken(userLoginDto.getUserName()).build();
     }
 
