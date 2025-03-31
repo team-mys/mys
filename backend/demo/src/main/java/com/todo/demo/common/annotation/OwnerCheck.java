@@ -1,4 +1,4 @@
-package com.todo.demo.common.aspect;
+package com.todo.demo.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

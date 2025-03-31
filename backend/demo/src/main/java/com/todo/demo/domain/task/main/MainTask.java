@@ -44,6 +44,10 @@ public class MainTask extends BaseEntity {
         this.mainTaskStatus = taskStatus;
     }
 
+    public Long getOwnerId(){
+        return this.users.getUserId();
+    }
+
     @PrePersist
     protected void updateStartStatus(){
         this.mainTaskStatus = TaskStatus.PENDING;
