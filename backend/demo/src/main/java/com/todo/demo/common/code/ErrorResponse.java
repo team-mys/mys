@@ -25,6 +25,12 @@ public class ErrorResponse {
         this.divisionCode = errorCode.getDivisionCode();
         this.status = errorCode.getStatus();
     }
+
+    public ErrorResponse(final ErrorCode errorCode, String reasonMsg){
+        this.reason = reasonMsg;
+        this.divisionCode = errorCode.getDivisionCode();
+        this.status = errorCode.getStatus();
+    }
     public static ErrorResponse from(ErrorCode errorCode){
         return new ErrorResponse(errorCode);
     }
