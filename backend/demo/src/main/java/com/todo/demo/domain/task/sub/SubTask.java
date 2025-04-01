@@ -33,4 +33,10 @@ public class SubTask {
         this.mainTask = mainTask;
     }
 
+    public void toDo(MainTask mainTask, String subTaskContent, String subTaskStatus){
+        this.mainTask = mainTask;
+        this.subTaskContent = subTaskContent;
+        this.subTaskStatus = TaskStatus.fromDescription(subTaskStatus);
+    }
+
 }
