@@ -1,6 +1,9 @@
 package com.todo.demo.config;
 
 import com.todo.demo.common.ResponseWrapper;
+import com.todo.demo.security.UserDetailsServiceImpl;
+import com.todo.demo.security.filter.CustomUnauthorizedHandler;
+import com.todo.demo.security.filter.JwtAuthorizationFilter;
 import com.todo.demo.security.filter.LoginAuthenticationFilter;
 import com.todo.demo.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +36,18 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final ResponseWrapper responseWrapper;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final CustomUnauthorizedHandler customUnauthorizedHandler;
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter(){
+        return new JwtAuthorizationFilter(jwtUtil, responseWrapper, userDetailsService);
+    }
     @Bean
     public LoginAuthenticationFilter loginAuthenticationFilter(AuthenticationManager authenticationManager){
         LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(jwtUtil, responseWrapper);
@@ -57,12 +66,25 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                                .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
+                                .requestMatchers(
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources/**",
+                                        "/webjars/**"
+                                ).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/user/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
-                                .requestMatchers("/**").permitAll());
+//                                .anyRequest().authenticated()
+                                .requestMatchers("/**").permitAll()
+                );
 
+        httpSecurity.exceptionHandling(exception -> exception
+                .authenticationEntryPoint(customUnauthorizedHandler));
+//        httpSecurity.addFilterBefore(jwtAuthorizationFilter(), loginAuthenticationFilter.getClass());
         httpSecurity.addFilterBefore(loginAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+
         return httpSecurity.build();
     }
 

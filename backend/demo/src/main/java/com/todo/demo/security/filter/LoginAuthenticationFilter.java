@@ -2,6 +2,8 @@ package com.todo.demo.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todo.demo.common.ResponseWrapper;
+import com.todo.demo.common.code.ErrorCode;
+import com.todo.demo.common.code.ErrorResponse;
 import com.todo.demo.domain.user.Users;
 import com.todo.demo.domain.user.dto.UserResponseDto;
 import com.todo.demo.domain.user.repository.UserRepository;
@@ -71,7 +73,8 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
     protected void unsuccessfulAuthentication(HttpServletRequest request,
                                               HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        response.setStatus(401);
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.USER_NOT_FOUND_ERROR);
+        responseWrapper.convertObjectToResponse(response, errorResponse);
     }
 
 }

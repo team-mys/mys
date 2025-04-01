@@ -51,7 +51,7 @@ public class UserController {
         userService.deleteUserByUserId(userId);
     }
 
-    @Operation(summary = "사용자 로그인", description = "로그인에 성공하면 403 에러를 반환, 성공하면 AccessToken과 User 정보 반환")
+    @Operation(summary = "사용자 로그인", description = "로그인에 실패하면 USER_NOT_FOUND_ERROR, 성공하면 AccessToken과 User 정보 반환")
     @PostMapping("/login")
     public JwtToken userLogin(@RequestBody UserLoginDto userLoginDto){
         return JwtToken.builder().accessToken(userLoginDto.getUserName()).build();
