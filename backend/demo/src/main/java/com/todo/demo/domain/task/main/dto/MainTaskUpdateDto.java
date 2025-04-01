@@ -10,8 +10,6 @@ public class MainTaskUpdateDto {
 
     private Long userId;
 
-    private String mainTaskTitle;
-
     private String mainTaskContent;
 
 }
