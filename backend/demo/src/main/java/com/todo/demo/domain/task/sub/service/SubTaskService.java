@@ -10,7 +10,9 @@ import com.todo.demo.domain.task.sub.repository.SubTaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,23 +31,29 @@ public class SubTaskService {
     }
 
     public List<SubTaskResDto> getSubTaskListByMainTaskId(Long mainTaskId){
-        return SubTaskResDto.of(subTaskRepository.getSubTasksByMainTaskMainTaskId(mainTaskId));
+        List<SubTask> subTasksByMainTask = subTaskRepository.getSubTasksByMainTaskMainTaskId(mainTaskId);
+        List<SubTask> sortedSubTask = subTasksByMainTask.stream().sorted(Comparator.comparing(SubTask::getSubTaskId)).collect(Collectors.toList());
+        return SubTaskResDto.of(sortedSubTask);
     }
 
     public SubTaskResDto updateSubTask(SubTaskUpdateDto subTaskUpdateDto){
         SubTask findSubTask = subTaskRepository.findById(subTaskUpdateDto.getSubTaskId()).get();
         MainTask findMainTask = mainTaskRepository.findById(subTaskUpdateDto.getMainTaskId()).get();
 
-        findSubTask.toDo(findMainTask, subTaskUpdateDto.getSubTaskContent(), subTaskUpdateDto.getSubTaskStatus());
+        findSubTask.refreshSubTask(findMainTask, subTaskUpdateDto.getSubTaskContent());
         SubTask updateSubTask = subTaskRepository.save(findSubTask);
         return SubTaskResDto.of(updateSubTask);
+    }
+
+    public SubTaskResDto updateSubTaskIsSuccess(Long subTaskId){
+        SubTask findSubTask = subTaskRepository.findById(subTaskId).get();
+        findSubTask.todo();
+        SubTask saveSubTask = subTaskRepository.save(findSubTask);
+        return SubTaskResDto.of(saveSubTask);
     }
 
     public void deleteSubTaskById(long subTaskId){
         subTaskRepository.deleteById(subTaskId);
     }
-
-
-
 
 }

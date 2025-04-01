@@ -1,6 +1,5 @@
 package com.todo.demo.domain.task.sub;
 
-import com.todo.demo.domain.task.TaskStatus;
 import com.todo.demo.domain.task.main.MainTask;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,18 +24,24 @@ public class SubTask {
     @JoinColumn(name = "main_task_id")
     private MainTask mainTask;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sub_task_status")
-    private TaskStatus subTaskStatus;
+    @Column(name = "is_success")
+    private Boolean isSuccess;
 
     public void updateMainTask(MainTask mainTask){
         this.mainTask = mainTask;
     }
 
-    public void toDo(MainTask mainTask, String subTaskContent, String subTaskStatus){
+    public void refreshSubTask(MainTask mainTask, String subTaskContent){
         this.mainTask = mainTask;
         this.subTaskContent = subTaskContent;
-        this.subTaskStatus = TaskStatus.fromDescription(subTaskStatus);
     }
 
+    public void todo(){
+        this.isSuccess = !this.isSuccess;
+    }
+
+    @PrePersist
+    private void setDefaultIsSuccess(){
+        this.isSuccess = false;
+    }
 }

@@ -1,7 +1,6 @@
 package com.todo.demo.domain.task.main;
 
 import com.todo.demo.domain.BaseEntity;
-import com.todo.demo.domain.task.TaskStatus;
 import com.todo.demo.domain.user.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,9 +25,8 @@ public class MainTask extends BaseEntity {
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "main_task_status")
-    private TaskStatus mainTaskStatus;
+    @Column(name = "is_success")
+    private Boolean isSuccess;
 
     public void updateUsers(Users users){
         this.users = users;
@@ -36,20 +34,15 @@ public class MainTask extends BaseEntity {
     public void refreshTask(String mainTaskContent){
         this.mainTaskContent = mainTaskContent;
     }
-    public String parseStatus(){
-        return this.mainTaskStatus.getStatusDescription();
-    }
-
-    public void updateStatus(TaskStatus taskStatus){
-        this.mainTaskStatus = taskStatus;
-    }
 
     public Long getOwnerId(){
         return this.users.getUserId();
     }
-
+    public void todo(){
+        this.isSuccess = !this.isSuccess;
+    }
     @PrePersist
     protected void updateStartStatus(){
-        this.mainTaskStatus = TaskStatus.PENDING;
+        this.isSuccess = false;
     }
 }

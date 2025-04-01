@@ -44,6 +44,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         catch (Exception e){
+            System.out.println("작동" + e.getMessage());
             ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
             responseWrapper.convertObjectToResponse(response, errorResponse);
         }

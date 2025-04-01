@@ -36,6 +36,12 @@ public class SubTaskController {
         subTaskService.deleteSubTaskById(subTaskId);
     }
 
+    @Operation(summary = "SubTask before or success", description = "boolean 값으로 todo 상태 토글 success, before 상태변경")
+    @PatchMapping("/{subTaskId}")
+    public SubTaskResDto updateIsSuccess(@PathVariable Long subTaskId){
+        return subTaskService.updateSubTaskIsSuccess(subTaskId);
+    }
+
     @Operation(summary = "메인 테스크 id로 서브 테스크 목록 조회", description = "mainTaskId에 해당하는 subTaskList를 반환합니다.")
     @GetMapping("/{mainTaskId}")
     public List<SubTaskResDto> getSubTaskList(@PathVariable Long mainTaskId){
