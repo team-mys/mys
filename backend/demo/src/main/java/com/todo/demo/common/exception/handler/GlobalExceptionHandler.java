@@ -1,5 +1,6 @@
 package com.todo.demo.common.exception.handler;
 
+import com.todo.demo.common.code.ErrorCode;
 import com.todo.demo.common.code.ErrorResponse;
 import com.todo.demo.common.exception.CustomException;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     protected ResponseEntity<ErrorResponse> handleCustomException(CustomException ex){
         ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception ex){
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
