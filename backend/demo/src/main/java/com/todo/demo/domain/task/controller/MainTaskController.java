@@ -4,8 +4,11 @@ import com.todo.demo.domain.task.main.dto.MainTaskReqDto;
 import com.todo.demo.domain.task.main.dto.MainTaskResDto;
 import com.todo.demo.domain.task.main.dto.MainTaskUpdateDto;
 import com.todo.demo.domain.task.main.service.MainTaskService;
+import com.todo.demo.util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +21,13 @@ import java.util.List;
 @RequestMapping("/api/v1/maintask")
 public class MainTaskController {
     private final MainTaskService mainTaskService;
+    private final JwtUtil jwtUtil;
 
     @Operation(summary = "할 일 목록 가져오기", description = "사용자가 작성한, userId에 해당하는 mainTaskList 반환")
-    @GetMapping("/{userId}")
-    public List<MainTaskResDto> getMyMainTask(@PathVariable Long userId){
-        return mainTaskService.getAllMainTaskByUserId(userId);
+    @GetMapping("/all")
+    public List<MainTaskResDto> getMyMainTask(HttpServletRequest request){
+        String userName = jwtUtil.getClaims(jwtUtil.getJwtToken(request)).getSubject();
+        return mainTaskService.getAllMainTaskByUserId(userName);
     }
 
     @Operation(summary = "메인 작업 삭제", description = "mainTaskId에 해당하는 data 삭제")
@@ -44,14 +49,16 @@ public class MainTaskController {
     }
 
     @Operation(summary = "사용자의 할 일을 수정한다.", description = "mainTaskId, mainTaskContent를 받아서 mainTask를 업데이트해준다. 반환 값은 업데이트한 MainTask 컬럼 값이다.")
-    @PutMapping()
-    public MainTaskResDto updateMainTask(@RequestBody MainTaskUpdateDto mainTaskUpdateDto){
-        return mainTaskService.updateMainTask(mainTaskUpdateDto);
+    @PutMapping
+    public MainTaskResDto updateMainTask(@RequestBody MainTaskUpdateDto mainTaskUpdateDto, HttpServletRequest request){
+        String userName = jwtUtil.getClaims(jwtUtil.getJwtToken(request)).getSubject();
+        return mainTaskService.updateMainTask(mainTaskUpdateDto, userName);
     }
 
     @Operation(summary = "메인 테스크를 생성할 수 있다.", description = "mainTaskId를 제외한 data를 받아 새로운 mainTask를 생성하고, 생성된 mainTask 반환")
     @PostMapping
-    public MainTaskResDto createMainTask(@RequestBody MainTaskReqDto mainTaskReqDto){
-        return mainTaskService.createMainTask(mainTaskReqDto);
+    public MainTaskResDto createMainTask(@RequestBody MainTaskReqDto mainTaskReqDto, HttpServletRequest request){
+        String userName = jwtUtil.getClaims(jwtUtil.getJwtToken(request)).getSubject();
+        return mainTaskService .createMainTask(mainTaskReqDto, userName);
     }
 }

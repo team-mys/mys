@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class MainTaskReqDto {
     private String mainTaskContent;
-    private Long userId;
 
     public MainTask asMainTask(){
         return MainTask.builder()

@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MainTaskRepository extends JpaRepository<MainTask, Long> {
-    List<MainTask> findAllByUsersUserId(Long userId);
+    List<MainTask> findAllByUsersUserName(String userName);
 }
