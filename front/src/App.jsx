@@ -1,16 +1,13 @@
-import TodoTemplate from './components/TodoTemplate.jsx';
-import TodoInsert from './components/TodoInsert.jsx';
-import TodoList from './components/TodoList.jsx';
+import Todos from './components/todos/Todos.jsx';
+import {AuthProvider} from './context/AuthContext.jsx';
 
-function App() {
+export default function App() {
+
   return (
     <>
-      <TodoTemplate>
-        <TodoInsert />
-        <TodoList />
-      </TodoTemplate>
+      <AuthProvider>
+        <Todos/>
+      </AuthProvider>
     </>
   );
 }
-
-export default App;
