@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 @Builder
 public class MainTaskResDto {
     private Long mainTaskId;
-    private String mainTaskStatus;
     private String mainTaskContent;
     private Long userId;
+    private boolean isSuccess;
     private LocalDateTime createdAt;
 
     public static MainTaskResDto of(MainTask mainTask){
@@ -22,8 +22,8 @@ public class MainTaskResDto {
                 .builder()
                 .mainTaskId(mainTask.getMainTaskId())
                 .mainTaskContent(mainTask.getMainTaskContent())
-                .mainTaskStatus(mainTask.parseStatus())
                 .userId(mainTask.getUsers().getUserId())
+                .isSuccess(mainTask.getIsSuccess())
                 .createdAt(mainTask.getCreatedAt())
                 .build();
     }

@@ -6,9 +6,11 @@ import lombok.Data;
 @Data
 @Builder
 public class SubTaskUpdateDto {
-    private String subTaskTitle;
+    private Long subTaskId;
 
-    private String mainTaskContent;
+    private String subTaskStatus;
 
-    private Long userId;
+    private String subTaskContent;
+
+    private Long mainTaskId;
 }

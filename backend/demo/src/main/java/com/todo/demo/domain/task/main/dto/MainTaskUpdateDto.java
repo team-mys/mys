@@ -8,10 +8,6 @@ import lombok.Data;
 public class MainTaskUpdateDto {
     private Long mainTaskId;
 
-    private Long userId;
-
-    private String mainTaskTitle;
-
     private String mainTaskContent;
 
 }

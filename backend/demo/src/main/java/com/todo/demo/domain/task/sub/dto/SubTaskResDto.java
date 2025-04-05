@@ -12,17 +12,18 @@ import java.util.stream.Collectors;
 public class SubTaskResDto {
     private Long subTaskId;
 
-    private String subTaskTitle;
-
     private String subTaskContent;
 
-    private long main_task_id;
+    private boolean isSuccess;
+
+    private long mainTaskId;
 
     public static SubTaskResDto of(SubTask subTask){
         return SubTaskResDto.builder()
                 .subTaskId(subTask.getSubTaskId())
                 .subTaskContent(subTask.getSubTaskContent())
-                .main_task_id(subTask.getMainTask().getMainTaskId())
+                .mainTaskId(subTask.getMainTask().getMainTaskId())
+                .isSuccess(subTask.getIsSuccess())
                 .build();
     }
 
