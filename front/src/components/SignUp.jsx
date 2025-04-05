@@ -19,7 +19,7 @@ export default function SignUpModal({onClose, toLogin}) {
     (e) => {
       e.preventDefault();
       signup(form);
-      toLogin();
+      toLogin(form);
     },
     [form, signup]
   );
