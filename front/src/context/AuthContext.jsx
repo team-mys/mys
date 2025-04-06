@@ -1,16 +1,103 @@
-import {createContext, useContext, useState} from 'react';
+//import { createContext, useContext, useState, useEffect } from 'react';
+//import axios from 'axios';
+//
+//const AuthContext = createContext();
+//
+//export function AuthProvider({ children }) {
+//  const [user, setUser] = useState(null);
+//
+//  // 앱 로드 시 localStorage에서 유저 정보를 복원
+//  useEffect(() => {
+//    const storedUser = localStorage.getItem('userResponseDto');
+//    if (storedUser) {
+//      setUser(JSON.parse(storedUser)); // 복원 시 userResponseDto만 저장
+//    }
+//  }, []);
+//
+//  const signup = async (userData) => {
+//    try {
+//      const response = await axios.post(
+//        'http://59.24.237.51:8080/api/v1/user',
+//        userData,
+//        {
+//          headers: {
+//            'Content-Type': 'application/json',
+//            'Accept': '*/*'
+//          }
+//        }
+//      );
+//      const userInfo = response.data.userResponseDto; // userResponseDto 저장
+//      setUser(userInfo);
+//      localStorage.setItem('accessToken', response.data.accessToken);
+//      localStorage.setItem('userResponseDto', JSON.stringify(userInfo));
+//    } catch (error) {
+//      console.error("회원가입 실패", error);
+//    }
+//  };
+//
+//  const login = async (userData) => {
+//    try {
+//      const response = await axios.post(
+//        "http://59.24.237.51:8080/api/v1/user/login",
+//        userData,
+//        {
+//          headers: {
+//            'Content-Type': 'application/json',
+//            'Accept': '*/*'
+//          },
+//          withCredentials: false,
+//        }
+//      );
+//
+//      const userInfo = response.data.userResponseDto; // userResponseDto만 저장
+//      setUser(userInfo);
+//      localStorage.setItem('accessToken', response.data.accessToken);
+//      localStorage.setItem('userResponseDto', JSON.stringify(userInfo));
+//    } catch (error) {
+//      console.error("로그인 실패", error);
+//    }
+//  };
+//
+//  const logout = () => {
+//    setUser(null);
+//    localStorage.removeItem('accessToken');
+//    localStorage.removeItem('userResponseDto');
+//  };
+//
+//  return (
+//    <AuthContext.Provider value={{ user, logout, signup, login }}>
+//      {children}
+//    </AuthContext.Provider>
+//  );
+//}
+//
+//export function useAuth() {
+//  return useContext(AuthContext);
+//}
+
+import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
 
-export function AuthProvider({children}) {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userResponseDto');
+    if (storedUser && storedUser !== 'undefined') {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('JSON 파싱 에러:', error);
+        localStorage.removeItem('userResponseDto');
+      }
+    }
+  }, []);
+
   const signup = async (userData) => {
-    console.log("보내는 데이터:", userData); // 데이터 확인용
     try {
       const response = await axios.post(
-        //import.meta.env.VITE_AUTH_SIGNUP,
         'http://59.24.237.51:8080/api/v1/user',
         userData,
         {
@@ -20,15 +107,16 @@ export function AuthProvider({children}) {
           }
         }
       );
-      setUser(response.data); // 회원가입 성공 시 상태 업데이트
-      console.log(response.data);
+      const userInfo = response.data.userResponseDto; // userResponseDto 저장
+      setUser(userInfo);
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('userResponseDto', JSON.stringify(userInfo));
     } catch (error) {
-      console.error("회원가입 실패",error);
+      console.error("회원가입 실패", error);
     }
   };
 
   const login = async (userData) => {
-    console.log("보내는 데이터:", userData); // 데이터 확인용
     try {
       const response = await axios.post(
         "http://59.24.237.51:8080/api/v1/user/login",
@@ -41,27 +129,24 @@ export function AuthProvider({children}) {
           withCredentials: false,
         }
       );
-      setUser(response.data);
-      console.log("응답 데이터:", response.data);
+
+      const userInfo = response.data.userResponseDto; // userResponseDto만 저장
+      setUser(userInfo);
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('userResponseDto', JSON.stringify(userInfo));
     } catch (error) {
       console.error("로그인 실패", error);
     }
   };
 
-  const viewUser = async () => {
-    try {
-      const response = await axios.get(
-        'http://59.24.237.51:8080/api/v1/user'
-      );
-      setUser(response.data); // 유저 정보 업데이트
-      console.log('현재 사용자 정보:', response.data);
-    } catch (error) {
-      console.error('유저 정보 가져오기 실패:', error);
-    }
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userResponseDto');
   };
 
   return (
-    <AuthContext.Provider value={{user, signup, viewUser, login}}>
+    <AuthContext.Provider value={{ user, logout, signup, login }}>
       {children}
     </AuthContext.Provider>
   );

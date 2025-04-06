@@ -83,7 +83,7 @@ function MainListItem({todo}) {
             checked ? 'text-gray-400 line-through dark:text-gray-950' : 'text-black'
           )}
         >
-          {text}
+          {todo.mainTaskContent}
         </span>
         <div className="flex items-center cursor-pointer px-2">
           <button

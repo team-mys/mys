@@ -19,8 +19,9 @@ export default function LoginModal({onClose, toSignUp}) {
     (e) => {
       e.preventDefault();
       login(form);
+      onClose();
     },
-    [form, login]
+    [form, login, onClose]
   );
 
   return (
