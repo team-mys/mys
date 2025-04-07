@@ -1,9 +1,17 @@
+import { useEffect } from 'react';
 import MainListItem from './MainListItem.jsx';
-import {useTodos} from '../../hooks/useTodos.js';
+import { useTodos, useFetchTodos } from '../../hooks/useTodos.js';
 
-export default function TodoList() {
+export default function TodoList({ userInfo }) {
   const todos = useTodos();
-  console.log("Todos List:", todos); // 디버깅용 로그 추가
+  const fetchTodos = useFetchTodos();
+
+  useEffect(() => {
+    console.log('userInfo:', userInfo);
+    if (userInfo?.userId) {
+      fetchTodos(userInfo.userId);
+    }
+  }, [userInfo?.userId, fetchTodos]);
 
   return (
     <div className="min-h-[480px] max-h-[768px] overflow-y-auto dark:bg-gray-900">

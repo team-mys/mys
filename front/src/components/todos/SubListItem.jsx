@@ -6,10 +6,9 @@ import {twMerge} from 'tailwind-merge';
 import SubEdit from './SubEdit.jsx';
 
 function SubListItem({todo, onDelete, onComplete, onUpdate}) {
-  const {id, text, checked} = todo;
+  const { subTaskId, subTaskContent, checked } = todo;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(text);
 
   return (
     <div
@@ -18,7 +17,7 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
         <BsArrowReturnRight size={25}
                             className="stroke-[0.5] text-gray-600 dark:text-gray-950"/>
       </div>
-      <button onClick={() => onComplete(id)}
+      <button onClick={() => onComplete(subTaskId)}
               className="flex items-center">
         {checked ? (
           <MdCheckBox size={25} className="fill-orange-400 text-lg"/>
@@ -29,7 +28,7 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
       <span className={twMerge(
         "px-3 w-[600px] dark:text-white",
         checked ? "text-gray-400 line-through dark:text-gray-950" : "text-black"
-      )}>{text}</span>
+      )}>{subTaskContent}</span>
       <div className="flex items-center cursor-pointer px-2 gap-2">
         <button
           className="text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500"
@@ -38,16 +37,16 @@ function SubListItem({todo, onDelete, onComplete, onUpdate}) {
           <MdEdit size={22}/>
         </button>
         <button
-          onClick={() => onDelete(id)}
+          onClick={() => onDelete(subTaskId)}
           className="text-gray-500 hover:text-gray-300 rounded-full border p-0.5 border-gray-500"
         >
           <IoMdTrash size={22}/>
         </button>
       </div>
       {isEditing &&
-        <SubEdit text={editText} onClose={() => setIsEditing(false)}
+        <SubEdit text={subTaskContent} onClose={() => setIsEditing(false)}
                  onSave={(newText) => {
-                   onUpdate(id, newText);
+                   onUpdate(subTaskId, newText);
                    setIsEditing(false);
                  }}/>}
     </div>
